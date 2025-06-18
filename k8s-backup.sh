@@ -236,8 +236,8 @@ spec:
           tar -czvf /backup/$pvc_name-\$(date +%Y%m%d-%H%M%S).tar.gz /data/
           
           echo "Backup für $pvc_name abgeschlossen"
-          echo "Backup-Dateien:"
-          ls -la /backup/
+          # echo "Backup-Dateien:"
+          # ls -la /backup/
         volumeMounts:
         - name: data
           mountPath: /data
