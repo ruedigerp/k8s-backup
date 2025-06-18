@@ -1,0 +1,66 @@
+name: (dev) Build, Package, Release
+'on':
+  # release:
+  #   types:
+  #     - created
+  push:
+    branches:
+      - dev
+env:
+  VERSION: null
+jobs:
+
+  build-image-dev:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+  
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: get semversion
+        run: |
+          VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - id: containerRegistryLogin
+        name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ruedigerp
+          password: ${{ secrets.GH_TOKEN }}
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push multi-arch image
+        uses: docker/build-push-action@v5
+        with:
+          context: . 
+          file: Dockerfile-amd64
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/ruedigerp/k8s-pv-backup:${{ env.VERSION }}
+            ghcr.io/ruedigerp/k8s-pv-backup:latest
+          build-args: |
+            VERSION=${{ env.VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max          
+

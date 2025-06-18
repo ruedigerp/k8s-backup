@@ -1,0 +1,74 @@
+# Helm Chart: static-ok
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+## Add Helm repository, update and deploy helm chart.
+
+### Helm repository:
+
+```
+#> helm repo add ruedigerp https://ruedigerp.github.io/helm-charts/
+#> helm repo update
+
+```
+
+### Ensure that the correct Kubernetes Cluster Context is selected.
+
+```
+#> kubectl config current-context
+#> # If the right Context is not selected:
+#> kubectl config use-context <yourCluster>
+```
+
+### Install helm chart
+```
+#> helm install static-ok ruedigerp/static-ok
+```
+
+The Helm Chart is now installed. Deployment static-ok, loadBalancer service,
+Ingress including TLS with Letsencrypt certificate was installed by the Helm Chart in the cluster.
+
+
+## Own values overridden:
+```
+#> helm install static-ok ruedigerp/static-ok -f values.yaml
+```
+
+   * It can choose between ingress with nginx or traefik.
+   * Enable or disable TLS. domains.tls: (on|off)
+
+###  Example Values.yaml:
+```
+ingress:
+  enabled: true
+  tls: true
+  domains: 
+    - name: a.example.com
+    - name: b.example.com
+    - name: c.example.com
+
+mounts:
+  - file: index.html
+    mount: /usr/share/nginx/html/index.html
+
+```
+
+## Installing an upgrade from repo server:
+```
+#> helm repo update
+#> helm upgrade static-ok ruedigerp/static-ok
+```
+### with own values:
+```
+#> helm upgrade static-ok ruedigerp/static-ok -f values.yaml
+```

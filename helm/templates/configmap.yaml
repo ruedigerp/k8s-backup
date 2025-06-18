@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-config
+  namespace: backup-system
+data:
+  nfs-server: "10.0.10.7"
+  nfs-path: "/srv/nfs/k8s-pv/production/k8s-backup"
+  storage-class: "nfs-client"

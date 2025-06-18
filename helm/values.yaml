@@ -1,0 +1,8 @@
+---
+fullnameOverride: "k8s-pv-backup"
+
+image: ghcr.io/ruedigerp/k8s-pv-backup:latest
+
+nfs-server: "10.0.10.7"
+nfs-path: "/srv/nfs/k8s-pv/production/k8s-backup"
+storage-class: "nfs-client"

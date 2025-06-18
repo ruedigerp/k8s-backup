@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: v1.0.0
+description: "k8s-pv-backup"
+name: k8s-pv-backup
+version: v0.0.1
+
+maintainers:
+  - name: ruedigerp
+    email: ruedigerp@kuepper.nrw
+    url: https://github.com/ruedigerp
+  - name: support-team
+    email: support@tytik.cloud

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+      "config:recommended",
+      ":enableRenovate",
+      ":enableVulnerabilityAlerts",
+      ":dependencyDashboard",
+      "group:monorepos",
+      "group:recommended",
+      "workarounds:all"
+  ],
+  "semanticCommits": "enabled",
+  "separateMajorMinor": true,
+  "separateMinorPatch": true,
+  "separateMultipleMajor": true,
+  "lockFileMaintenance": {
+      "enabled": true
+  },
+  "packageRules": [
+      {
+        "matchPackageNames": ["ghcr.io/ruedigerp/k8s-pv-backup"],
+        "enabled": false
+      }
+    ],
+  "reviewers": [
+      "ruedigerp"
+  ]
+}
