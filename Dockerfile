@@ -9,8 +9,16 @@ RUN apk add --no-cache \
     ca-certificates \
     && rm -rf /var/cache/apk/*
 
-# Installiere kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+# Installiere kubectl (Multi-Arch)
+ARG TARGETPLATFORM
+RUN set -ex && \
+    case ${TARGETPLATFORM} in \
+        linux/amd64) ARCH=amd64 ;; \
+        linux/arm64) ARCH=arm64 ;; \
+        linux/arm/v7) ARCH=arm ;; \
+        *) echo "Unsupported platform: ${TARGETPLATFORM}" && exit 1 ;; \
+    esac && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH}/kubectl" \
     && chmod +x kubectl \
     && mv kubectl /usr/local/bin/
 
