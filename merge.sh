@@ -24,7 +24,7 @@ case $STEP in
 
     ;;
 
-  "stage-main")
+  "dev-main")
     echo "🚀 Merging dev -> main"
 
     PR_OUTPUT=$(gh pr create \
@@ -94,11 +94,13 @@ case $STEP in
     echo ""
     echo "Available steps:"
     echo "  dev-stage   - Merge dev -> stage"
+    echo "  dev-main  - Merge dev -> main"  
     echo "  stage-main  - Merge stage -> main"  
     echo "  back-merge  - Back-merge main -> stage & dev after release"
     echo ""
     echo "Examples:"
     echo "  $0 dev-stage"
+    echo "  $0 dev-main"
     echo "  $0 stage-main"
     echo "  $0 back-merge"
     exit 1
