@@ -23,7 +23,22 @@ case $STEP in
     gh pr merge $PR_NUMBER --merge --subject "Release stage" --auto
 
     ;;
-    
+
+  "stage-main")
+    echo "🚀 Merging dev -> main"
+
+    PR_OUTPUT=$(gh pr create \
+      --base main \
+      --head dev \
+      --title "Deploy dev to main - $(date +%Y-%m-%d)" \
+      --body "Deploy latest development changes to production environment")
+
+    PR_NUMBER=$(echo "$PR_OUTPUT" | grep -o '[0-9]\+$')
+
+    gh pr merge $PR_NUMBER --merge --subject "Release production" --auto
+
+    ;;
+
   "stage-main")
     echo "🚀 Merging stage -> main"
 
