@@ -1,5 +1,5 @@
 # Dockerfile
-FROM alpine:3.19
+FROM alpine:3.22
 
 # Installiere benötigte Pakete
 RUN apk add --no-cache \
